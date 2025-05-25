@@ -75,7 +75,7 @@ const DemoPage: React.FC = () => {
         <ChatWidget config={{
           theme: 'light',
           position: 'bottom-right',
-          primaryColor: '#3B82F6',
+          primaryColor: '#B33B15',
           title: 'Support Chat',
           subtitle: "We're here to help!",
           placeholder: 'Type your message...'

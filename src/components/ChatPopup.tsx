@@ -23,6 +23,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
     config
 }) => {
     const [inputValue, setInputValue] = useState('')
+    const [isVisible, setIsVisible] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -31,7 +32,13 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
     }, [messages, isTyping])
 
     useEffect(() => {
-        inputRef.current?.focus()
+        // Trigger entrance animation
+        setIsVisible(true)
+        // Focus input after animation starts
+        const timer = setTimeout(() => {
+            inputRef.current?.focus()
+        }, 150)
+        return () => clearTimeout(timer)
     }, [])
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -60,7 +67,12 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                 flexDirection: 'column',
                 border: `2px solid ${config.primaryColor}20`,
                 zIndex: 999999,
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                // Smooth entrance animation
+                transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)',
+                opacity: isVisible ? 1 : 0,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transformOrigin: 'bottom right'
             }}
         >
             {/* Header */}
