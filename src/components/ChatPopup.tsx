@@ -25,7 +25,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
     const [inputValue, setInputValue] = useState('')
     const [isVisible, setIsVisible] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
-    const inputRef = useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -417,9 +417,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                 borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
             }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                    <input
+                    <textarea
                         ref={inputRef}
-                        type="text"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         placeholder={config.placeholder}
@@ -432,7 +431,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                             backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#ffffff',
                             color: isDark ? '#ffffff' : '#111827',
                             outline: 'none',
-                            transition: 'all 0.2s ease'
+                            transition: 'all 0.2s ease',
+                            resize: 'none'
                         }}
                         onFocus={(e) => {
                             e.currentTarget.style.borderColor = config.primaryColor
