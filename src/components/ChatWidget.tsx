@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ChatButton from './ChatButton'
 import ChatPopup from './ChatPopup'
 import styles from './ChatWidget.module.css'
-import { useChat } from '@/hooks/useChat'
 import { Role, RoleObject } from '@/@types'
+import { fetchChat } from '@/services/chat'
 
 interface ChatWidgetConfig {
     apiKey?: string
@@ -28,7 +28,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
         timestamp: Date
     }>>([])
     const [isTyping, setIsTyping] = useState(false)
-    const { messages: chatResponses, isLoading, error, status, sendMessage } = useChat()
 
     const toggleChat = () => {
         setIsOpen(!isOpen)
@@ -42,21 +41,30 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
         }
         setMessages(prev => [...prev, userMessage])
         setIsTyping(true)
-
-        await sendMessage(text)
-    }
-
-    useEffect(() => {
-        if (chatResponses?.content && status === 'success') {
-            setMessages(prev => [...prev, {
-                id: (Date.now() + 1).toString(),
-                text: chatResponses.content,
+        try {
+            const response = await fetchChat(text)
+            const assistantMessage = {
+                id: Date.now().toString(),
+                text: response,
                 sender: RoleObject.ASSISTANT,
                 timestamp: new Date()
-            }])
+            }
+            setMessages(prev => [...prev, assistantMessage])
+            setIsTyping(false)
+        } catch (error) {
+            console.error('Error fetching chat:', error)
+            const errorMessage = {
+                id: Date.now().toString(),
+                text: "Sorry, I'm having trouble processing your request. Please try again",
+                sender: RoleObject.ASSISTANT,
+                timestamp: new Date()
+            }
+            setMessages(prev => [...prev, errorMessage])
             setIsTyping(false)
         }
-    }, [chatResponses, status])
+    }
+
+
 
     return (
         <div className={styles.chatWidget}>
