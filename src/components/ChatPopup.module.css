@@ -25,6 +25,9 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: bottom right;
+    max-height: calc(100vh - 100px);
+    max-width: calc(100vw - 40px);
+    overflow: hidden;
 }
 
 .popup.visible {
@@ -189,7 +192,7 @@
 }
 
 .messageBubble {
-    padding: 10px 14px;
+    padding: 5px 14px;
     font-size: 14px;
     line-height: 1.4;
 }
@@ -394,4 +397,13 @@
 .messageContent.assistant.small {
     max-width: 208px;
     /* 65% of 320px */
+}
+
+/* Add responsive positioning */
+@media (max-width: 768px) {
+    .popup {
+        width: calc(100vw - 40px) !important;
+        right: 20px !important;
+        left: 20px !important;
+    }
 }
