@@ -3,6 +3,7 @@ import RobotIcon from '../assets/Robot-icon.png'
 import styles from './ChatPopup.module.css'
 import { Role } from '@/@types'
 import { RoleObject } from '@/@types'
+import ReactMarkdown from 'react-markdown'
 interface Message {
     id: string
     text: string
@@ -162,7 +163,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                         backgroundColor: message.sender === RoleObject.USER ? config.primaryColor : undefined,
                                     }}
                                 >
-                                    {message.text}
+                                    <ReactMarkdown>{message.text}</ReactMarkdown>
                                 </div>
 
                                 {message.sender === RoleObject.ASSISTANT && (
