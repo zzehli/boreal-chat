@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ChatButton from './ChatButton'
 import ChatPopup from './ChatPopup'
+import styles from './ChatWidget.module.css'
 
 interface ChatWidgetConfig {
     apiKey?: string
@@ -55,7 +56,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
     }
 
     return (
-        <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+        <div className={styles.chatWidget}>
             <ChatButton
                 onClick={toggleChat}
                 isOpen={isOpen}

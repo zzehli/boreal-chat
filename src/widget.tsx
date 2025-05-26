@@ -2,11 +2,11 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import ChatWidget from './components/ChatWidget'
 import './widget.css'
+import styles from './widget.module.css'
 
 // Global interface for the widget
 interface ChatWidgetConfig {
     apiKey?: string
-    theme?: 'light' | 'dark'
     position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
     primaryColor?: string
     title?: string
@@ -20,7 +20,6 @@ class ChatWidgetManager {
 
     constructor(config: ChatWidgetConfig = {}) {
         this.config = {
-            theme: 'light',
             position: 'bottom-right',
             primaryColor: '#3B82F6',
             title: 'Chat with us',
@@ -35,14 +34,9 @@ class ChatWidgetManager {
         // Create container with isolated styles
         this.container = document.createElement('div')
         this.container.id = 'chat-widget-container'
-        this.container.style.cssText = `
-      position: fixed;
-      z-index: 999999;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    `
 
-        // Set position based on config
-        this.setPosition()
+        // Apply CSS module classes
+        this.container.className = `${styles.chatWidgetContainer} ${this.getPositionClass()}`
 
         document.body.appendChild(this.container)
 
@@ -51,18 +45,14 @@ class ChatWidgetManager {
         this.root.render(React.createElement(ChatWidget, { config: this.config }))
     }
 
-    private setPosition() {
-        if (!this.container) return
-
-        const positions = {
-            'bottom-right': { bottom: '20px', right: '20px' },
-            'bottom-left': { bottom: '20px', left: '20px' },
-            'top-right': { top: '20px', right: '20px' },
-            'top-left': { top: '20px', left: '20px' }
+    private getPositionClass(): string {
+        const positionClasses = {
+            'bottom-right': styles.positionBottomRight,
+            'bottom-left': styles.positionBottomLeft,
+            'top-right': styles.positionTopRight,
+            'top-left': styles.positionTopLeft
         }
-
-        const pos = positions[this.config.position!]
-        Object.assign(this.container.style, pos)
+        return positionClasses[this.config.position!] || styles.positionBottomRight
     }
 
     public destroy() {
@@ -105,9 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Read configuration from data attributes
         if (script.getAttribute('data-api-key')) {
             config.apiKey = script.getAttribute('data-api-key')!
-        }
-        if (script.getAttribute('data-theme')) {
-            config.theme = script.getAttribute('data-theme') as 'light' | 'dark'
         }
         if (script.getAttribute('data-position')) {
             config.position = script.getAttribute('data-position') as any
