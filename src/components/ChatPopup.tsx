@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import RobotIcon from '../assets/Robot-icon.png'
 interface Message {
     id: string
@@ -76,8 +76,11 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
             return `rgb(${r}, ${g}, ${b})`
         }
     }
-    const backgroundColorLight = generateAnalogousColor(config.primaryColor, false)
-    const backgroundColorDark = generateAnalogousColor(config.primaryColor, true)
+
+    const backgroundColors = useMemo(() => ({
+        light: generateAnalogousColor(config.primaryColor, false),
+        dark: generateAnalogousColor(config.primaryColor, true)
+    }), [config.primaryColor])
 
     // Responsive sizing based on screen width
     const getResponsiveSize = () => {
@@ -108,7 +111,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                 right: '20px',
                 width: width,
                 height: height,
-                backgroundColor: isDark ? backgroundColorDark : backgroundColorLight,
+                backgroundColor: isDark ? backgroundColors.dark : backgroundColors.light,
                 color: isDark ? '#ffffff' : '#111827',
                 borderRadius: '12px',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
@@ -272,8 +275,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                                 background: 'none',
                                                 border: 'none',
                                                 cursor: 'pointer',
-                                                padding: '2px',
-                                                borderRadius: '4px',
+                                                padding: '3px',
+                                                borderRadius: '50px',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -299,8 +302,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                                 background: 'none',
                                                 border: 'none',
                                                 cursor: 'pointer',
-                                                padding: '2px',
-                                                borderRadius: '4px',
+                                                padding: '3px',
+                                                borderRadius: '50px',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
