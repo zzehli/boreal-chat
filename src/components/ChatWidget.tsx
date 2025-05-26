@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ChatButton from './ChatButton'
 import ChatPopup from './ChatPopup'
 import styles from './ChatWidget.module.css'
+import { useChat } from '@/hooks/useChat'
+import { Role, RoleObject } from '@/@types'
 
 interface ChatWidgetConfig {
     apiKey?: string
@@ -22,38 +24,39 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
     const [messages, setMessages] = useState<Array<{
         id: string
         text: string
-        sender: 'user' | 'bot'
+        sender: Role
         timestamp: Date
     }>>([])
     const [isTyping, setIsTyping] = useState(false)
+    const { messages: chatResponses, isLoading, error, status, sendMessage } = useChat()
 
     const toggleChat = () => {
         setIsOpen(!isOpen)
     }
-
-    const sendMessage = async (text: string) => {
+    const handleMessage = async (text: string) => {
         const userMessage = {
             id: Date.now().toString(),
             text,
-            sender: 'user' as const,
+            sender: RoleObject.USER,
             timestamp: new Date()
         }
-
         setMessages(prev => [...prev, userMessage])
         setIsTyping(true)
 
-        // Simulate bot response (replace with actual API call)
-        setTimeout(() => {
-            const botMessage = {
-                id: (Date.now() + 1).toString(),
-                text: `Thanks for your message: "${text}". This is a demo response.`,
-                sender: 'bot' as const,
-                timestamp: new Date()
-            }
-            setMessages(prev => [...prev, botMessage])
-            setIsTyping(false)
-        }, 1000)
+        await sendMessage(text)
     }
+
+    useEffect(() => {
+        if (chatResponses?.content && status === 'success') {
+            setMessages(prev => [...prev, {
+                id: (Date.now() + 1).toString(),
+                text: chatResponses.content,
+                sender: RoleObject.ASSISTANT,
+                timestamp: new Date()
+            }])
+            setIsTyping(false)
+        }
+    }, [chatResponses, status])
 
     return (
         <div className={styles.chatWidget}>
@@ -66,7 +69,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
                 <ChatPopup
                     messages={messages}
                     isTyping={isTyping}
-                    onSendMessage={sendMessage}
+                    onSendMessage={handleMessage}
                     onClose={() => setIsOpen(false)}
                     config={config}
                 />

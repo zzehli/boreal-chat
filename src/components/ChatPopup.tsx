@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import RobotIcon from '../assets/Robot-icon.png'
 import styles from './ChatPopup.module.css'
+import { Role } from '@/@types'
+import { RoleObject } from '@/@types'
 interface Message {
     id: string
     text: string
-    sender: 'user' | 'bot'
+    sender: Role
     timestamp: Date
 }
 
@@ -136,7 +138,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                         key={message.id}
                         className={`${styles.message} ${styles[message.sender]}`}
                     >
-                        {message.sender === 'bot' && (
+                        {message.sender === RoleObject.ASSISTANT && (
                             <div className={styles.avatar}>
                                 <img
                                     src={RobotIcon}
@@ -146,8 +148,8 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                             </div>
                         )}
 
-                        <div className={`${styles.messageContent} ${styles[sizeClass]} ${message.sender === 'bot' ? styles.bot : ''}`}>
-                            {message.sender === 'bot' && (
+                        <div className={`${styles.messageContent} ${styles[sizeClass]} ${message.sender === RoleObject.ASSISTANT ? styles.bot : ''}`}>
+                            {message.sender === RoleObject.ASSISTANT && (
                                 <div className={`${styles.senderName} ${isDark ? styles.dark : styles.light}`}>
                                     Helper Bot
                                 </div>
@@ -157,13 +159,13 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                 <div
                                     className={`${styles.messageBubble} ${styles[message.sender]}`}
                                     style={{
-                                        backgroundColor: message.sender === 'user' ? config.primaryColor : undefined,
+                                        backgroundColor: message.sender === RoleObject.USER ? config.primaryColor : undefined,
                                     }}
                                 >
                                     {message.text}
                                 </div>
 
-                                {message.sender === 'bot' && (
+                                {message.sender === RoleObject.ASSISTANT && (
                                     <div className={styles.feedbackButtons}>
                                         <button
                                             className={`${styles.feedbackButton} ${styles.thumbsUp} ${isDark ? styles.dark : styles.light}`}

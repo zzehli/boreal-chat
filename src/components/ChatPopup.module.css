@@ -139,7 +139,7 @@
     justify-content: flex-end;
 }
 
-.message.bot {
+.message.assistant {
     justify-content: flex-start;
 }
 
@@ -199,7 +199,7 @@
     color: white;
 }
 
-.messageBubble.bot {
+.messageBubble.assistant {
     border-radius: 16px 16px 16px 4px;
     background-color: #ffffff;
     color: #111827;
@@ -381,17 +381,17 @@
     /* 75% of 320px */
 }
 
-.messageContent.bot.large {
+.messageContent.assistant.large {
     max-width: 273px;
     /* 65% of 420px */
 }
 
-.messageContent.bot.medium {
+.messageContent.assistant.medium {
     max-width: 247px;
     /* 65% of 380px */
 }
 
-.messageContent.bot.small {
+.messageContent.assistant.small {
     max-width: 208px;
     /* 65% of 320px */
 }
