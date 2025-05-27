@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import RobotIcon from '../assets/Robot-icon.png'
 import styles from './ChatPopup.module.css'
-import { Role } from '@/@types'
+import { ReferenceItem, Role } from '@/@types'
 import { RoleObject } from '@/@types'
 import ReactMarkdown from 'react-markdown'
 interface Message {
     id: string
     text: string
+    references: ReferenceItem[]
     sender: Role
     timestamp: Date
 }
@@ -155,7 +156,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                     Helper Bot
                                 </div>
                             )}
-
+                            {/* message proper here */}
                             <div className={styles.messageWrapper}>
                                 <div
                                     className={`${styles.messageBubble} ${styles[message.sender]}`}
@@ -163,7 +164,16 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                         backgroundColor: message.sender === RoleObject.USER ? config.primaryColor : undefined,
                                     }}
                                 >
-                                    <ReactMarkdown>{message.text}</ReactMarkdown>
+                                    <ReactMarkdown
+                                        components={{
+                                            a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
+                                        }}
+                                    >
+                                        {`${message.text}${message.sender === RoleObject.ASSISTANT && message.references?.length > 0 ? `
+
+**Read More:**
+${message.references.map(ref => `- [${ref.url}](${ref.url})`).join('\n')}` : ''}`}
+                                    </ReactMarkdown>
                                 </div>
 
                                 {message.sender === RoleObject.ASSISTANT && (

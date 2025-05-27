@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ChatButton from './ChatButton'
 import ChatPopup from './ChatPopup'
 import styles from './ChatWidget.module.css'
-import { Role, RoleObject } from '@/@types'
+import { ReferenceItem, Role, RoleObject } from '@/@types'
 import { fetchChat } from '@/services/chat'
 
 interface ChatWidgetConfig {
@@ -26,6 +26,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
         text: string
         sender: Role
         timestamp: Date
+        references: ReferenceItem[]
     }>>([])
     const [isTyping, setIsTyping] = useState(false)
 
@@ -37,7 +38,8 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
             id: Date.now().toString(),
             text,
             sender: RoleObject.USER,
-            timestamp: new Date()
+            timestamp: new Date(),
+            references: []
         }
         setMessages(prev => [...prev, userMessage])
         setIsTyping(true)
@@ -45,9 +47,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
             const response = await fetchChat(text)
             const assistantMessage = {
                 id: Date.now().toString(),
-                text: response,
+                text: response.message,
                 sender: RoleObject.ASSISTANT,
-                timestamp: new Date()
+                timestamp: new Date(),
+                references: response.references
             }
             setMessages(prev => [...prev, assistantMessage])
             setIsTyping(false)
@@ -57,7 +60,8 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
                 id: Date.now().toString(),
                 text: "Sorry, I'm having trouble processing your request. Please try again",
                 sender: RoleObject.ASSISTANT,
-                timestamp: new Date()
+                timestamp: new Date(),
+                references: []
             }
             setMessages(prev => [...prev, errorMessage])
             setIsTyping(false)

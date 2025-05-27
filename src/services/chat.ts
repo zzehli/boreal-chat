@@ -1,4 +1,5 @@
-export const fetchChat = async (messageContent: string): Promise<string> => {
+import type { ChatResponse } from '@/@types'
+export const fetchChat = async (messageContent: string): Promise<ChatResponse> => {
     try {
 
 
