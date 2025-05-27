@@ -171,7 +171,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
                                     >
                                         {`${message.text}${message.sender === RoleObject.ASSISTANT && message.references?.length > 0 ? `
 
-**Read More:**
+Read More:
 ${message.references.map(ref => `- [${ref.url}](${ref.url})`).join('\n')}` : ''}`}
                                     </ReactMarkdown>
                                 </div>

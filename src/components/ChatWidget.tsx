@@ -45,12 +45,18 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
         setIsTyping(true)
         try {
             const response = await fetchChat(text)
+            const uniqueReferences = response.references.filter((ref, index, self) =>
+                index === self.findIndex((r) => r.url === ref.url)
+            )
+            const cleanMessage = (text: string) => {
+                return text.replace(/\[\d+\]/g, '')  // Remove [1], [2], etc.
+            }
             const assistantMessage = {
                 id: Date.now().toString(),
-                text: response.message,
+                text: cleanMessage(response.message),
                 sender: RoleObject.ASSISTANT,
                 timestamp: new Date(),
-                references: response.references
+                references: uniqueReferences
             }
             setMessages(prev => [...prev, assistantMessage])
             setIsTyping(false)
