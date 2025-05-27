@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from "path"
 // https://vite.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ mode }) => {
   const baseConfig = {
     plugins: [react()],
     resolve: {
@@ -12,12 +12,9 @@ export default defineConfig(({ command }) => {
     },
   }
 
-  if (command === 'serve') {
-    // Development configuration - use dev.tsx as entry point
-    return {
-      ...baseConfig,
-    }
-  } else {
+
+
+  if (mode === 'package') {
     // Production build configuration
     return {
       ...baseConfig,
@@ -40,5 +37,10 @@ export default defineConfig(({ command }) => {
         'process.env.NODE_ENV': '"production"'
       }
     }
+
+  }
+  return {
+    ...baseConfig,
+    base: '/boreal-chat/',
   }
 })
