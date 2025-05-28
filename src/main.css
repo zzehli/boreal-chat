@@ -1,0 +1,53 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #e7e0d2;
+}
+
+.demo-page {
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+.circle-text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.circle-text-svg {
+    background: transparent;
+    display: block;
+    margin: 0 auto;
+}
+
+.rotating-text {
+    transform-origin: 200px 200px;
+    animation: rotate-circle 20s linear infinite;
+}
+
+@keyframes rotate-circle {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
