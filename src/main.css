@@ -6,6 +6,10 @@ body {
     background: #e7e0d2;
 }
 
+a {
+    display: block;
+}
+
 .demo-page {
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

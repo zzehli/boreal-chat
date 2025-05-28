@@ -25,6 +25,8 @@ const DemoPage: React.FC = () => {
           </svg>
         </div>
       </main>
+      <a href="https://github.com/zzehli/boreal-chat" target="_blank" rel="noopener noreferrer">Front-end code</a>
+      <a href="https://github.com/zzehli/boreal-api" target="_blank" rel="noopener noreferrer">Back-end code</a>
 
       <div style={{
         position: 'fixed',
@@ -37,7 +39,7 @@ const DemoPage: React.FC = () => {
           theme: 'light',
           position: 'bottom-right',
           primaryColor: '#0050A5',
-          title: 'Support Chat',
+          title: 'Nestlé bot',
           subtitle: "We're here to help!",
           placeholder: 'Type your message...'
         }} />
