@@ -1,4 +1,13 @@
 # Chat widget
+## Local Development
+Pull the codebase, install the dependencies with pnpm:
+```
+pnpm install
+```
+Start the development server
+```
+pnpm run dev
+```
 ## Features
 * Embedded widget plug into any website as a script tag
 
