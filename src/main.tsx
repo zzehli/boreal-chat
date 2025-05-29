@@ -1,7 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import ChatWidget from './components/ChatWidget'
-import './widget.css'
 import './main.css'
 
 // Demo page component

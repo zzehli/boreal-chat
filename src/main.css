@@ -33,6 +33,7 @@ a {
     align-items: center;
     justify-content: center;
     height: 400px;
+    overflow: clip;
 }
 
 .circle-text-svg {
@@ -53,5 +54,12 @@ a {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 400px) {
+    .circle-text-svg {
+        width: 350px;
+        height: 350px;
     }
 }
